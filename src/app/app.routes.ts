@@ -14,7 +14,7 @@ export const routes: Routes = [
   { path: 'transactions', component: TransactionsComponent },
  { path: 'categories', component: CategoryComponent },
  { path: 'budget', component: BudgetComponent },
- { path: 'profile', component: ProfileComponent }
+ { path: 'profile', component: ProfileComponent },
  {
     path: '**',
     redirectTo: ''
