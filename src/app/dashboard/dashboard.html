@@ -1,0 +1,47 @@
+<h1>Dashboard</h1>
+
+<!-- SUMMARY -->
+<h2>Summary</h2>
+<div>💰 Income: ${{ totalIncome() }}</div>
+<div>💸 Expense: ${{ totalExpense() }}</div>
+<div>📊 Balance: ${{ balance() }}</div>
+
+<hr />
+
+<!-- ALERTS -->
+<h2>Budget Alerts</h2>
+
+@for(a of alerts(); track $index){
+  <div>
+    <strong>{{a.category}}</strong>:
+    ${{a.spent}} / ${{a.limit}}
+
+    @if(a.status === 'warning'){
+      <span style="color: orange;"> ⚠️ Near limit</span>
+    }
+
+    @if(a.status === 'exceeded'){
+      <span style="color: red;"> ❌ Exceeded</span>
+    }
+  </div>
+}
+
+<hr />
+
+<!-- CATEGORY BREAKDOWN -->
+<h2>Category Spending</h2>
+
+@for(key of objectKeys(categorySpending()); track $index){
+  <div>
+    {{key}} → ${{categorySpending()[key]}}
+  </div>
+}
+
+<hr />
+
+<!-- CHARTS -->
+<h2>Charts</h2>
+
+<canvas id="pieChart"></canvas>
+<br /><br />
+<canvas id="barChart"></canvas>

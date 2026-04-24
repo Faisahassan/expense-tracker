@@ -1,0 +1,18 @@
+.card {
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 10px;
+    background: #f5f5f5;
+  }
+  
+  .income {
+    border-left: 5px solid green;
+  }
+  
+  .expense {
+    border-left: 5px solid red;
+  }
+  
+  .balance {
+    border-left: 5px solid blue;
+  }

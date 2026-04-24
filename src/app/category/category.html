@@ -1,0 +1,62 @@
+<h1>Categories</h1>
+
+<!-- ================= FORM ================= -->
+
+<div style="margin-bottom: 15px;">
+
+  <!-- Category Name -->
+
+<input
+type="text"
+[(ngModel)]="name"
+placeholder="Category name"
+style="margin-right: 10px;"
+/>
+
+  <!-- Color Picker -->
+
+<input
+type="color"
+[(ngModel)]="color"
+style="margin-right: 10px;"
+/>
+
+  <!-- Add / Update Button -->
+
+@if(selectedCategory()){
+<button (click)="updateCategory()">Update</button>
+} @else {
+<button (click)="addCategory()">Add</button>
+}
+
+</div>
+
+<hr />
+
+<!-- ================= LIST ================= -->
+
+<h2>List</h2>
+
+@for(c of categoryService.categories(); track $index){
+
+  <div style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+
+
+<!-- Color Box -->
+<div 
+  [style.background]="c.color" 
+  style="width: 15px; height: 15px; border-radius: 3px;"
+></div>
+
+<!-- Category Name -->
+<span style="font-weight: bold;">
+  {{c.name}}
+</span>
+
+<!-- Buttons -->
+<button (click)="selectCategory(c)">Edit</button>
+<button (click)="categoryService.deleteCategory(c.id!)">Delete</button>
+
+
+  </div>
+}

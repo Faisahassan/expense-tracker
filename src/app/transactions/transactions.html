@@ -1,0 +1,117 @@
+<h1>Transactions</h1>
+
+<!-- ================= SEARCH + FILTER BUTTON ================= -->
+
+<div style="display: flex; gap: 10px; margin-bottom: 15px;">
+
+  <input 
+    type="text"
+    [(ngModel)]="search"
+    placeholder="Search transactions..."
+    style="flex: 1;"
+  />
+
+  <button (click)="showFilters.set(!showFilters())">
+    Filters
+  </button>
+
+</div>
+
+<!-- ================= FILTER SIDEBAR ================= -->
+
+@if(showFilters()){
+  <div style="
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 15px;
+    background: #f9f9f9;
+  ">
+
+    <h3>Filters</h3>
+
+    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+
+      <select [(ngModel)]="filterCategory">
+        <option value="">All Categories</option>
+        @for(c of categoryService.categories(); track $index){
+          <option [value]="c.name">{{c.name}}</option>
+        }
+      </select>
+
+      <input type="number" [(ngModel)]="filterMin" placeholder="Min Amount" />
+      <input type="number" [(ngModel)]="filterMax" placeholder="Max Amount" />
+
+      <input type="date" [(ngModel)]="filterStartDate" />
+      <input type="date" [(ngModel)]="filterEndDate" />
+
+      <button (click)="
+        filterCategory=''; 
+        filterMin=0; 
+        filterMax=0; 
+        filterStartDate=''; 
+        filterEndDate='';
+      ">
+        Clear
+      </button>
+
+    </div>
+
+  </div>
+}
+
+<!-- ================= FORM ================= -->
+
+<div style="margin-bottom: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
+
+  <input type="number" [(ngModel)]="amount" placeholder="Amount" />
+
+  <select [(ngModel)]="category">
+    <option value="">Select Category</option>
+    @for(c of categoryService.categories(); track $index){
+      <option [value]="c.name">{{c.name}}</option>
+    }
+  </select>
+
+  <input type="date" [(ngModel)]="date" />
+
+  <input type="text" [(ngModel)]="notes" placeholder="Notes" />
+
+  <select [(ngModel)]="type">
+    <option value="expense">Expense</option>
+    <option value="income">Income</option>
+  </select>
+
+  @if(selectedTransaction()){
+    <button (click)="updateTransaction()">Update</button>
+  } @else {
+    <button (click)="addTransaction()">Add</button>
+  }
+
+</div>
+
+<hr />
+
+<!-- ================= LIST ================= -->
+
+<h2>List</h2>
+
+@for(t of getFilteredTransactions(); track $index) {
+  <div style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+
+    <div 
+      [style.background]="t.categoryColor" 
+      style="width: 15px; height: 15px; border-radius: 3px;"
+    ></div>
+
+    <span>
+      <strong>{{t.category}}</strong> →
+      ${{t.amount}} ({{t.type}})
+      - {{t.date}}
+      - {{t.notes}}
+    </span>
+
+    <button (click)="selectTransaction(t)">Edit</button>
+    <button (click)="transactionService.deleteTransaction(t.id!)">Delete</button>
+
+  </div>
+}

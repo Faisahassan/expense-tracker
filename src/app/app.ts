@@ -1,34 +1,23 @@
-import { Component, inject, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { User, UserService } from './user.service';
+import { Component, inject } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
+import { NavbarComponent } from './navbar/navbar';
 
 @Component({
   selector: 'app-root',
-  imports: [FormsModule],
-  templateUrl: './app.html',
-  styleUrl: './app.css'
+  standalone: true,
+  imports: [RouterOutlet, NavbarComponent],
+  template: `
+    @if(showNavbar()){
+      <app-navbar></app-navbar>
+    }
+    <router-outlet></router-outlet>
+  `
 })
 export class App {
-  title = 'practice-firestore-crud';
 
-  // Injecting UserService from user.service.ts
-  userService = inject(UserService);
+  router = inject(Router);
 
-  name = signal<string>('');
-  email = signal<string>('');
-
-  // This is the hook method that will be called when the component is initialized
-  ngOnInit(){
-   
+  showNavbar() {
+    return this.router.url !== '/' && this.router.url !== '/register';
   }
-  //method called when user clicks on the Add User button.
-  addUser() {
-    
-  }
-  //resets form
-  resetForm() {
-    this.name.set('');
-    this.email.set('');
-  }
-
 }

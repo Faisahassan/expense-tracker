@@ -1,0 +1,36 @@
+<h1>Budget</h1>
+
+<div>
+  <select [(ngModel)]="category">
+    <option value="">Select Category</option>
+
+    @for(c of categoryService.categories(); track $index){
+      <option [value]="c.name">{{ c.name }}</option>
+    }
+  </select>
+
+  <input type="number" [(ngModel)]="limit" placeholder="Budget Amount" />
+
+  <!-- 🔥 MONTH -->
+  <input type="month" [(ngModel)]="month" />
+
+  @if(selectedBudget()){
+    <button (click)="updateBudget()">Update</button>
+  }
+  @else {
+    <button (click)="addBudget()">Add</button>
+  }
+</div>
+
+<hr />
+
+<h2>Budgets</h2>
+
+@for(b of budgetService.budgets(); track $index){
+  <div>
+    {{b.category}} ({{b.month}}) → ${{b.limit}}
+
+    <button (click)="selectBudget(b)">Edit</button>
+    <button (click)="budgetService.deleteBudget(b.id!)">Delete</button>
+  </div>
+}
